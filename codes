@@ -1,0 +1,186 @@
+setwd("C:/Users/faara/Desktop/admixt")
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(patchwork)
+library(ggpubr)
+
+data<- read.table("work4.2.Q",header=FALSE)
+names(data)[1]<-paste("K1")
+names(data)[2]<-paste("K2")
+Pop<- read.table("work4.fam",header=FALSE)
+names(Pop)[1]<-paste("Breed")
+names(Pop)[2]<-paste("ID")
+Data<-cbind(Pop$Breed,Pop$ID,data)
+names(Data)[1]<-paste("Breed")
+names(Data)[2]<-paste("ID")
+tbl<-Data[,3:4]
+rownames(tbl) <- Data[,2]
+
+plot_data <- tbl %>% 
+  mutate(ID = rownames(tbl)) %>% 
+  gather('pop', 'prob', K1:K2) %>% 
+  group_by(ID) %>% 
+  mutate(likely_assignment = pop[which.max(prob)],
+         assingment_prob = max(prob)) %>% 
+  arrange(likely_assignment, desc(assingment_prob)) %>% 
+  ungroup() %>% 
+  mutate(ID = forcats::fct_inorder(factor(ID)))
+
+
+M<-merge(plot_data,Data,by="ID")
+write.csv(plot_data,"K2.csv")
+
+
+P2<-ggplot(M, aes(ID, prob, fill = pop)) +
+  facet_grid(~Breed, switch = "x", scales = "free", space = "free")+
+  theme_minimal() + labs(x = "", title = "", y = "K=2") +
+  geom_col(width = 1)  +scale_fill_manual(name = "Population",values=c("darkblue", "red","yellow","dodgerblue2","green3"))+
+  theme(text=element_text(size=12,  face= "bold",family="Arial"))+
+  scale_x_discrete(labels = NULL, breaks = NULL)+
+  scale_colour_manual(values=c("NA","Black"))+  theme(axis.text.y=element_blank(),axis.ticks.y=element_blank())+
+  guides(fill=FALSE, color=FALSE)
+
+
+
+##############################K3
+
+
+
+data<- read.table("work4.3.Q",header=FALSE)
+names(data)[1]<-paste("K1")
+names(data)[2]<-paste("K2")
+names(data)[3]<-paste("K3")
+Pop<- read.table("work4.fam",header=FALSE)
+names(Pop)[1]<-paste("Breed")
+names(Pop)[2]<-paste("ID")
+Data<-cbind(Pop$Breed,Pop$ID,data)
+names(Data)[1]<-paste("Breed")
+names(Data)[2]<-paste("ID")
+tbl<-Data[,3:5]
+rownames(tbl) <- Data[,2]
+
+plot_data <- tbl %>% 
+  mutate(ID = rownames(tbl)) %>% 
+  gather('pop', 'prob', K1:K3) %>% 
+  group_by(ID) %>% 
+  mutate(likely_assignment = pop[which.max(prob)],
+         assingment_prob = max(prob)) %>% 
+  arrange(likely_assignment, desc(assingment_prob)) %>% 
+  ungroup() %>% 
+  mutate(ID = forcats::fct_inorder(factor(ID)))
+
+
+M<-merge(plot_data,Data,by="ID")
+write.csv(plot_data,"K3.csv")
+P3<-ggplot(M, aes(ID, prob, fill = pop)) +
+  facet_grid(~Breed, switch = "x", scales = "free", space = "free")+
+  theme_minimal() + labs(x = "", title = "", y = "K=3") +
+  geom_col(width = 1)  +scale_fill_manual(name = "Population",values=c("darkblue", "red","yellow","dodgerblue2","green3"))+
+  theme(text=element_text(size=12,  face= "bold",family="Arial"))+
+  scale_x_discrete(labels = NULL, breaks = NULL)+
+  scale_colour_manual(values=c("NA","Black"))+
+  theme(axis.text.y=element_blank(),axis.ticks.y=element_blank())+
+  guides(fill=FALSE, color=FALSE)
+
+
+
+###################K4
+
+
+
+
+
+data<- read.table("work4.4.Q",header=FALSE)
+names(data)[1]<-paste("K1")
+names(data)[2]<-paste("K2")
+names(data)[3]<-paste("K3")
+names(data)[4]<-paste("K4")
+Pop<- read.table("work4.fam",header=FALSE)
+names(Pop)[1]<-paste("Breed")
+names(Pop)[2]<-paste("ID")
+Data<-cbind(Pop$Breed,Pop$ID,data)
+names(Data)[1]<-paste("Breed")
+names(Data)[2]<-paste("ID")
+tbl<-Data[,3:6]
+rownames(tbl) <- Data[,2]
+
+plot_data <- tbl %>% 
+  mutate(ID = rownames(tbl)) %>% 
+  gather('pop', 'prob', K1:K4) %>% 
+  group_by(ID) %>% 
+  mutate(likely_assignment = pop[which.max(prob)],
+         assingment_prob = max(prob)) %>% 
+  arrange(likely_assignment, desc(assingment_prob)) %>% 
+  ungroup() %>% 
+  mutate(ID = forcats::fct_inorder(factor(ID)))
+
+
+M<-merge(plot_data,Data,by="ID")
+write.csv(plot_data,"K4.csv")
+P4<-ggplot(M, aes(ID, prob, fill = pop)) +
+  facet_grid(~Breed, switch = "x", scales = "free", space = "free")+
+  theme_minimal() + labs(x = "", title = "", y = "K=4") +
+  geom_col(width = 1)  +scale_fill_manual(name = "Population",values=c("darkblue", "red","yellow","dodgerblue2","green3"))+
+  theme(text=element_text(size=12,  face= "bold",family="Arial"))+
+  scale_x_discrete(labels = NULL, breaks = NULL)+
+  scale_colour_manual(values=c("NA","Black"))+  
+  theme(axis.text.y=element_blank(),axis.ticks.y=element_blank())+
+  guides(fill=FALSE, color=FALSE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+#############################K5
+
+data<- read.table("work4.5.Q",header=FALSE)
+names(data)[1]<-paste("K1")
+names(data)[2]<-paste("K2")
+names(data)[3]<-paste("K3")
+names(data)[4]<-paste("K4")
+names(data)[5]<-paste("K5")
+Pop<- read.table("work4.fam",header=FALSE)
+names(Pop)[1]<-paste("Breed")
+names(Pop)[2]<-paste("ID")
+Data<-cbind(Pop$Breed,Pop$ID,data)
+names(Data)[1]<-paste("Breed")
+names(Data)[2]<-paste("ID")
+tbl<-Data[,3:7]
+rownames(tbl) <- Data[,2]
+
+plot_data <- tbl %>% 
+  mutate(ID = rownames(tbl)) %>% 
+  gather('pop', 'prob', K1:K5) %>% 
+  group_by(ID) %>% 
+  mutate(likely_assignment = pop[which.max(prob)],
+         assingment_prob = max(prob)) %>% 
+  arrange(likely_assignment, desc(assingment_prob)) %>% 
+  ungroup() %>% 
+  mutate(ID = forcats::fct_inorder(factor(ID)))
+
+
+M<-merge(plot_data,Data,by="ID")
+write.csv(plot_data,"K5.csv")
+P5<-ggplot(M, aes(ID, prob, fill = pop)) +
+  facet_grid(~Breed, switch = "x", scales = "free", space = "free")+
+  theme_minimal() + labs(x = "Breed", title = "", y = "K=5") +
+  geom_col(width = 1)  +scale_fill_manual(name = "Population",values=c("darkblue", "red","yellow","dodgerblue2","green3"))+
+  theme(text=element_text(size=12,  face= "bold",family="Arial"))+
+  scale_x_discrete(labels = NULL, breaks = NULL)+
+  scale_colour_manual(values=c("NA","Black"))+  
+  theme(axis.text.y=element_blank(),axis.ticks.y=element_blank())+
+  guides(fill=FALSE, color=FALSE)
+
+
+
+figure<-ggarrange(P2,P3,P4,P5,ncol = 1,nrow = 4,labels = c("","","",""))
+ggsave("plot1.png",height=8, width=12 ,dpi=600, units="in")
